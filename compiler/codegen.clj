@@ -162,9 +162,9 @@
 
 (defn limit [s n]
   (let [c (count s)
-        i (if (> c n) n c)
+        [i e] (if (> c n) [n "..."] [c ""])
         ]
-    (subs s 0 i)))
+    (str (subs s 0 i) e)))
 
 (defn compile-all-lambdas []
   (if (empty? @lambda-todo)
@@ -173,12 +173,11 @@
           ast (cdr x)]
       (swap! lambda-todo #(cdr %))
       (list
-       "case " (car x) ": /* " (limit (pr-str ast) 60) " */\n\n"
+       "case " (car x) ": /* " (limit (pr-str ast) 57) " */\n\n"
        (code-gen (car (ast-subx ast))
                  (reverse (lam-params ast)))
        "\n\n"
        (compile-all-lambdas)))))
-
 
 (defn code-generate [ast]
   (let [total (slurp "compiler/runtime.c")
@@ -195,3 +194,43 @@
  	prefix)
         code
         suffix))))
+
+
+(defn source [ast]
+  (cond (lit? ast)
+        (lit-val ast)
+
+        (ref? ast)
+        (var-uid (ref-var ast))
+
+        (set-clj? ast)
+        (list 'set!
+              (var-uid (set-var ast))
+              (source (car (ast-subx ast))))
+
+        (cnd? ast)
+        (cons 'if (doall (map source (ast-subx ast))))
+
+        (prim? ast)
+        (cons (prim-op ast) (doall (map source (ast-subx ast))))
+
+        (app? ast)
+        (if (lam? (car (ast-subx ast)))
+          (list 'let
+                (doall (map (fn [p a]
+                              (list (var-uid p) (source a)))
+                            (lam-params (car (ast-subx ast)))
+                            (cdr (ast-subx ast))))
+                (source (car (ast-subx (car (ast-subx ast))))))
+          (doall (map source (ast-subx ast))))
+
+        (lam? ast)
+        (list 'lambda
+              (doall (map var-uid (lam-params ast)))
+              (source (car (ast-subx ast))))
+
+        (seq? ast)
+        (cons 'begin (map source (ast-subx ast)))
+
+        :else
+        (error "unknown ast" ast)))

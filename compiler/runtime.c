@@ -51,7 +51,7 @@ obj execute (void)
 
   jump: switch (pc) {
 
-    //__SCHEME_CODE__
+//__SCHEME_CODE__
 
   }
   
