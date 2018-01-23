@@ -166,6 +166,7 @@
         ]
     (str (subs s 0 i) e)))
 
+(def source)
 (defn compile-all-lambdas []
   (if (empty? @lambda-todo)
     ""
@@ -173,7 +174,7 @@
           ast (cdr x)]
       (swap! lambda-todo #(cdr %))
       (list
-       "case " (car x) ": /* " (limit (pr-str ast) 57) " */\n\n"
+       "case " (car x) ": /* " (limit (pr-str (source ast)) 57) " */\n\n"
        (code-gen (car (ast-subx ast))
                  (reverse (lam-params ast)))
        "\n\n"
