@@ -8,7 +8,7 @@
 
 ; code generation
 (defn interval [n m] ; returns the list (n n+1 n+2 ... m)
-  (if (<= n m) (cons-clj n (interval (+ n 1) m)) (list)))
+  (if (<= n m) (cons n (interval (+ n 1) m)) (list)))
 
 (def code-gen)
 (def lambda-todo (atom (list)))
@@ -17,7 +17,7 @@
 (defn add-lambda! [lam]
   (let [i @lambda-count]
     (swap! lambda-count #(+ % 1))
-    (swap! lambda-todo #(cons-clj (cons-clj i lam) %))
+    (swap! lambda-todo #(cons (cons i lam) %))
     i))
 
 (defn cg-list [asts vars stack-env sep cont]
@@ -26,7 +26,7 @@
     (let [x (code-gen (car asts) stack-env)]
       (cg-list (cdr asts)
                (cdr vars)
-               (cons-clj (car vars) stack-env)
+               (cons (car vars) stack-env)
                sep
                (fn [code stack-env]
                        (cont (list x sep code)

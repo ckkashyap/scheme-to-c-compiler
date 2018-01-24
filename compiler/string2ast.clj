@@ -87,7 +87,7 @@
 
    (make-macro 'define
      (fn [e cte]
-       (xe (cons-clj 'set! (cdr e)) cte)))
+       (xe (cons 'set! (cdr e)) cte)))
 
    (make-macro 'if
      (fn [e cte]
@@ -102,7 +102,7 @@
            (let [params (map new-var (cadr e))]
              (let [new-cte (extend-clj params cte)]
                (make-lam
-                (list (xe (cons-clj 'begin (cddr e)) new-cte))
+                (list (xe (cons 'begin (cddr e)) new-cte))
                 params)))
            (error "lambda expects a parameter list"))))
 
@@ -115,8 +115,8 @@
    (make-macro 'let
      (fn [e cte]
        (if (>= (length (cdr e)) 1)
-           (xe (cons-clj (cons-clj 'lambda
-                           (cons-clj (map car (cadr e))
+           (xe (cons (cons 'lambda
+                           (cons (map car (cadr e))
                                  (cddr e)))
                      (map cadr (cadr e)))
                cte)

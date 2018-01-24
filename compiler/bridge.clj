@@ -17,7 +17,6 @@
 (defn caddr [l] (first (rest (rest l))))
 (defn cadddr [l] (first (rest (rest (rest l)))))
 (defn length [x] (count x))
-(defn cons-clj [a l] (conj l a))
 (def null? empty?)
 
 
