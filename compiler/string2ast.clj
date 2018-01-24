@@ -131,8 +131,7 @@
                              x2 (clojure.string/join " " (map pr-str (cddr e)))
                              s (str "((lambda (t1 t2) (if t1 t1 (t2))) " x1
                                     "(lambda () (or " x2 ")))" )
-                             x3 (read-string s)
-                             _ (println x3)]
+                             x3 (read-string s)]
                          (xe x3 cte)))))
 
    (make-macro 'and
@@ -144,8 +143,7 @@
                              x2 (clojure.string/join " " (map pr-str (cddr e)))
                              s (str "((lambda (t1 t2) (if t1 (t2) t1)) " x1
                                     "(lambda () (and " x2 ")))" )
-                             x3 (read-string s)
-                             _ (println x3)]
+                             x3 (read-string s)]
                          (xe x3 cte)))))
    
   ))
