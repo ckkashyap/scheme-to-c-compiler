@@ -36,7 +36,7 @@
 
 
 (defn xe-exprs [le cte]
-  (map (fn [x] (xe x cte)) le))
+  (doall (map (fn [x] (xe x cte)) le)))
 
 (defn make-initial-cte []
   (list

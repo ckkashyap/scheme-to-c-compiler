@@ -182,7 +182,7 @@
 
 (defn code-generate [ast]
   (let [total (slurp "compiler/runtime.c")
-        m (re-matches #"(?s)(.*)//__SCHEME_CODE__(.*)" total)
+        m (re-matches #"(?s)(.*)//__SCHEME_CODE__.(.*)" total)
         prefix (m 1)
         suffix (m 2)]
    (swap! global-vars (fn [_x] (fv ast)))
@@ -191,7 +191,7 @@
        (list
         (list
  	"#define NB_GLOBALS " (count @global-vars) "\n"
- 	"#define MAX_STACK " 100 "\n" ; could be computed...
+ 	"#define MAX_STACK " 100 "\n\n" ; could be computed...
  	prefix)
         code
         suffix))))

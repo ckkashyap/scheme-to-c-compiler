@@ -52,11 +52,8 @@ obj execute (void)
   jump: switch (pc) {
 
 //__SCHEME_CODE__
-
   }
-  
   return POP();
 }
 
 int main () { printf ("result = %d\n", OBJ2INT(execute ())); return 0; }
-
