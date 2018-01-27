@@ -36,26 +36,26 @@
           args (doall (map (fn [x] (cc self-var free-vars x)) (cdr (ast-subx ast))))]
       (if (lam? func)
         (make-app
-         (cons-clj (make-lam
+         (cons (make-lam
                     (list ((fn [x] (cc self-var free-vars x)) (car (ast-subx func))))
                     (lam-params func))
                    args))
         (let [f ((fn [x] (cc self-var free-vars x)) func)]
           (make-app
-           (cons-clj (make-prim
+           (cons (make-prim
                       (list f
                             (make-lit '() 0))
                       '%closure-ref)
-                     (cons-clj f
+                     (cons f
                                args))))))
         
     (lam? ast)
     (let [new-free-vars (filter (fn [v] (not (global-var? v))) (fv ast))
           new-self-var (new-var 'self)]
       (make-prim
-       (cons-clj (make-lam
+       (cons (make-lam
                   (list (cc new-self-var new-free-vars (car (ast-subx ast))))
-                  (cons-clj new-self-var
+                  (cons new-self-var
                             (lam-params ast)))
                  (doall (map (fn [v]
                                      ((fn [x] (cc self-var free-vars x)) (make-ref '() v)))

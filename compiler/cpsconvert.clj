@@ -60,7 +60,7 @@
               (cps-list (cdr (ast-subx ast))
                         (fn [vals]
                           (make-app
-                           (cons-clj (make-lam
+                           (cons (make-lam
                                   (list (cps-seq (ast-subx func)
                                                  cont-ast))
                                   (lam-params func))
@@ -68,8 +68,8 @@
               (cps-list (ast-subx ast)
                         (fn [args]
                           (make-app
-                           (cons-clj (car args)
-                                 (cons-clj cont-ast
+                           (cons (car args)
+                                 (cons cont-ast
                                        (cdr args))))))))
           
           (lam? ast)
@@ -79,7 +79,7 @@
                    (make-lam
                     (list (cps-seq (ast-subx ast)
                                    (make-ref '() k)))
-                    (cons-clj k (lam-params ast))))))
+                    (cons k (lam-params ast))))))
           
           (seq-clj? ast)
           (cps-seq (ast-subx ast) cont-ast)
@@ -92,7 +92,7 @@
     (defn body [x]
       (cps-list (cdr asts)
                 (fn [new-asts]
-                        (inner (cons-clj x new-asts)))))
+                        (inner (cons x new-asts)))))
     
     (cond (null? asts)
           (inner '())

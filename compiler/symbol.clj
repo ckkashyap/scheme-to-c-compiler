@@ -14,12 +14,12 @@
 (defn union [s1 s2]
   (cond (empty? s1)  s2
         (contains? (into #{} s2) (car s1)) (union (cdr s1) s2)        
-        :else (cons-clj (car s1) (union (cdr s1) s2))))
+        :else (cons (car s1) (union (cdr s1) s2))))
 
 (defn diff [s1 s2]
   (cond (empty? s1)  (list)
         (contains? (into #{} s2) (car s1)) (diff (cdr s1) s2)
-        :else (cons-clj (car s1) (diff (cdr s1) s2))))
+        :else (cons (car s1) (diff (cdr s1) s2))))
 
 (defn union-multi [ls]
   (reduce union (list) ls))
