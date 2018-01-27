@@ -12,4 +12,4 @@ Another "problem" with Marc's implementation is that it is in scheme. What I mea
 
 ## Why Clojure?
 
-Ofcourse, this would be a question only for those don't know Clojure :)
+Ofcourse, this would be a question only for those don't know [Clojure](http://www.clojure.org) :)
