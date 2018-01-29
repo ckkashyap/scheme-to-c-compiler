@@ -3,10 +3,11 @@
 
 #define HEAP_SIZE 1000000
 
-typedef int obj;
+typedef long long obj;
 
 obj global[NB_GLOBALS];
 obj stack[MAX_STACK];
+obj dingo[HEAP_SIZE];
 obj heap[HEAP_SIZE];
 
 #define INT2OBJ(n) ((n) << 1)
@@ -43,11 +44,35 @@ obj heap[HEAP_SIZE];
 
 obj *gc (obj *sp) { exit (1); } /* no GC! */
 
+
+void dump(obj *sp, obj *hp)
+{
+  int i;
+  printf("STACK: ");
+  for(i = 0; i < 10; i++)
+    {
+      printf("%08p ", sp[i]);
+    }
+  printf("\n");
+
+  printf("HEAP: ");
+  for(i = 0; i < 10; i++)
+    {
+      printf("%08p ", hp[i]);
+    }
+  printf("\n");
+
+}
+
 obj execute (void)
 {
   int pc = 0;
   obj *sp = stack;
   obj *hp = &heap[HEAP_SIZE];
+  printf("sp = %08p; hp = %08p\n", sp, hp);
+  dump(sp, hp);
+  printf("-----\n");
+
 
   jump: switch (pc) {
 

@@ -156,11 +156,11 @@
                          s (list "JUMP(" n ");")]
                      (list
                       code
-                      "\n /*BEGIN_JUMP*/\n sp = stack;\n\n"
+                      "\n /*BEGIN_JUMP*/\n sp = stack;\n dump(sp, hp);\n\n"
                       (map (fn [j]
                              (list " PUSH(LOCAL(" (+ j start) "));"))
                            (interval 0 (- n 1)))
-                      "\n\n /*END_JUMP*/\n pc = OBJ2PTR(LOCAL(0))[0];\n goto jump;\n\n"))))))
+                      "\n\n /*END_JUMP*/\n pc = OBJ2PTR(LOCAL(0))[0];\n dump(sp, hp);\n goto jump;\n\n"))))))
   
     (lam? ast)
                                         ; this case is impossible after CPS-conversion
