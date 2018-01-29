@@ -10,7 +10,7 @@
   (spit
    "debug.txt"
    (str
-    @line-number
+     (format "%5d" @line-number)
     ": "
     (clojure.string/join (repeat @indent " ")) s "\n")
    :append true)

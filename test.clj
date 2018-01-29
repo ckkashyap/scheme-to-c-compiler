@@ -1,5 +1,7 @@
 (use '[compiler.main :as compiler])
 
+(spit "debug.txt" "")
+
 (def scheme-string (slurp "test/test.scm"))
 
 (def ast (compiler/string2ast scheme-string))

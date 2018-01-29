@@ -3,7 +3,8 @@
   (:use [compiler.ast])
   (:use [compiler.symbol])  
   (:use [compiler.bridge])
-  (:use [compiler.error])  
+  (:use [compiler.error])
+  (:use [compiler.debug])    
   (:use [compiler.string2ast :only [xe]]))
 
 ; code generation
@@ -51,8 +52,26 @@
                 1)]
       (list "LOCAL(" i "/*" (var-uid var) "*/)"))))
 
+
+(defn get-type [ast]
+  (cond
+    (lit? ast) "LIT"
+    (ref? ast) "REF"
+    (set-clj? ast) "SET"
+    (cnd? ast) "CND"
+    (prim? ast) "PRIM"
+    (app? ast) (if (lam? (car (ast-subx ast))) "APP(LAM)" "APP(NOT)")
+    (lam? ast) "LAM"
+    :else "UNKNOWN"))
+  
+(def source)
 (defn cg [stack-env ast]
 
+  (let
+      [_ (debug-indent)
+       _ (debug-print (str "RAW INPUT<" (get-type ast) "> " (pr-str ast)))
+       _ (debug-print (str "INPUT<" (get-type ast) "> " (pr-str (source ast))))
+       cg-result
   (cond
     (lit? ast)
     (let [val (lit-val ast)]
@@ -137,11 +156,11 @@
                          s (list "JUMP(" n ");")]
                      (list
                       code
-                      " BEGIN_" s
+                      "\n /*BEGIN_JUMP*/\n sp = stack;\n\n"
                       (map (fn [j]
                              (list " PUSH(LOCAL(" (+ j start) "));"))
                            (interval 0 (- n 1)))
-                      " END_" s))))))
+                      "\n\n /*END_JUMP*/\n pc = OBJ2PTR(LOCAL(0))[0];\n goto jump;\n\n"))))))
   
     (lam? ast)
                                         ; this case is impossible after CPS-conversion
@@ -154,7 +173,14 @@
          (ast-subx ast))
 
     :else
-    (error (str "unknown ast" ast))))
+    (error (str "unknown ast" ast)))
+
+
+       _ (debug-print (str "OUTPUT = " (pr-str cg-result)))
+       _ (debug-outdent)
+
+       ]
+    cg-result))
 
     
 (defn code-gen [ast stack-env]
