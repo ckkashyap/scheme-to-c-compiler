@@ -204,12 +204,12 @@ def extendClj (bindings, env):
   return extend1((list), bindings, env)
 
 
-def lookup(id, env):
-    if len(env) == 0:
-        return False
-
-    e = [env[x] for x in env if 
-
-  (cond (empty? env)                     false
-        (= (binding-id (car env)) id) (car env)
-        :else                            (lookup id (rest env))))
+# def lookup(id, env):
+#     if len(env) == 0:
+#         return False
+# 
+#     e = [env[x] for x in env if 
+# 
+#   (cond (empty? env)                     false
+#         (= (binding-id (car env)) id) (car env)
+#         :else                            (lookup id (rest env))))

@@ -3,7 +3,7 @@
 
 #define HEAP_SIZE 1000000
 
-typedef int obj;
+typedef long long obj;
 
 obj global[NB_GLOBALS];
 obj stack[MAX_STACK];
@@ -56,4 +56,4 @@ obj execute (void)
   return POP();
 }
 
-int main () { printf ("result = %d\n", OBJ2INT(execute ())); return 0; }
+int main () { printf ("result = %lld\n", OBJ2INT(execute ())); return 0; }

@@ -12,3 +12,7 @@ pom.xml.asc
 .lein-failures
 .nrepl-port
 test/test.c
+python/__pycache__
+*.exe
+test/before*.scm
+test/python.c
