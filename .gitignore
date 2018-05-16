@@ -14,5 +14,5 @@ pom.xml.asc
 test/test.c
 python/__pycache__
 *.exe
-test/before*.scm
-test/python.c
+*.swp
+test/*

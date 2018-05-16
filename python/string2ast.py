@@ -142,28 +142,32 @@ def makeInitialCte():
             makeMacro ('begin', beginFunc),
             makeMacro ('let', letFunc),
             makeMacro ('or', orFunc),
-            makeMacro ('and', andFunc),]
+            makeMacro ('and', andFunc)]
 
-def xeLookupGlobalCte (var):
-  (lookup var @xe-global-cte))
-(defn xe-add-to-global-cte [var]
-  (swap! xe-global-cte (fn [v] (conj v var))))
+def string2list(s):
+    sPrime = '(begin {})'.format(s)
+    p = parse(sPrime)
 
-(defn xe-lookup [sym cte]
-  (or (lookup sym cte)
-      (xe-lookup-global-cte sym)
-      (let [v (new-global-var sym)]
-        (xe-add-to-global-cte v)
-        v)))
-
-(swap! xe-global-cte (fn [_] (make-initial-cte)))
-
-(defn parse-scheme-string [s]
-  (let [
-        s' (str "(" s ")")
-        r  (read-string s')
-        ]
-    (conj r 'begin)))
-
-(defn parse [input] (xe (parse-scheme-string input) '()))
-
+# def xeLookupGlobalCte (var):
+#   (lookup var @xe-global-cte))
+# (defn xe-add-to-global-cte [var]
+#   (swap! xe-global-cte (fn [v] (conj v var))))
+# 
+# (defn xe-lookup [sym cte]
+#   (or (lookup sym cte)
+#       (xe-lookup-global-cte sym)
+#       (let [v (new-global-var sym)]
+#         (xe-add-to-global-cte v)
+#         v)))
+# 
+# (swap! xe-global-cte (fn [_] (make-initial-cte)))
+# 
+# (defn parse-scheme-string [s]
+#   (let [
+#         s' (str "(" s ")")
+#         r  (read-string s')
+#         ]
+#     (conj r 'begin)))
+# 
+# (defn parse [input] (xe (parse-scheme-string input) '()))
+# 

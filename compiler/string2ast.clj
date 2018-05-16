@@ -170,5 +170,12 @@
         ]
     (conj r 'begin)))
 
-(defn parse [input] (xe (parse-scheme-string input) '()))
+(defn parse [input]
+ (let [
+  p (parse-scheme-string input) ; parsed
+  _ (spit "test/afterparsing.scm" p)
+  a (xe p '()) ; after macro expansion
+  _ (spit "test/aftermacroexpansion.scm" a)
+ ] a))
+	
 
