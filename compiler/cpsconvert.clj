@@ -133,8 +133,8 @@
               (list ast-cps)
               (list (new-var '_)))
              (xe '(set! call/cc
-                        (fn [k f]
-                          (f k (fn [_ result] (k result)))))
+                        (lambda (k f)
+                          (f k (lambda (_ result) (k result)))))
                  '())))
       ast-cps)))
 
